@@ -9,14 +9,21 @@
 <body>
     <body style="margin:0; padding:0;">
     <script>
-        (function() {
-            var password = prompt("Podaj tajne hasło:");
-            if (password !== "miaumiau") {
+    (function() {
+        const isAuthorized = sessionStorage.getItem("authorized");
+
+        if (isAuthorized !== "true") {
+            const password = prompt("Podaj tajne hasło:");
+            
+            if (password === "kochamcie") {
+                sessionStorage.setItem("authorized", "true");
+            } else {
                 alert("Nieprawidłowe hasło!");
-                window.location.reload(); // Odświeża stronę, by zapytać ponownie
+                window.location.reload(); 
             }
-        })();
-    </script>
+        }
+    })();
+</script>
 
     
     <nav>
