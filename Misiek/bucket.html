@@ -189,27 +189,33 @@
         }
 
         async function loadFromCloud() {
-            toggleLoading(true);
-            try {
-                // Kluczowe: Dodajemy ?type=bucket, aby skrypt wiedział co pobrać
-                const response = await fetch(SCRIPT_URL + "?type=bucket");
-                const data = await response.json();
-                
-                if (data && Array.isArray(data)) {
-                    savedItems = data;
-                } else {
-                    savedItems = [
-                        { text: "Oglądanie gwiazd", done: false },
-                        { text: "Big city night drive", done: false }
-                    ];
-                }
-                render(false);
-            } catch (e) {
-                console.error(e);
-            } finally {
-                toggleLoading(false);
-            }
+    toggleLoading(true);
+    try {
+        const response = await fetch(SCRIPT_URL + "?type=bucket");
+        const rawData = await response.json();
+        
+        // SPRAWDZENIE: Czy dane to obiekt z polem 'data', czy czysta tablica?
+        if (rawData && rawData.data && Array.isArray(rawData.data)) {
+            savedItems = rawData.data;
+        } else if (Array.isArray(rawData)) {
+            savedItems = rawData;
+        } else {
+            // Domyślne startowe marzenia
+            savedItems = [
+                { text: "Oglądanie gwiazd", done: false },
+                { text: "Big city night drive", done: false }
+            ];
         }
+        render(false);
+    } catch (e) {
+        console.error("Błąd pobierania:", e);
+        // Jeśli błąd (np. pusta komórka), ładujemy domyślne
+        savedItems = [{ text: "Dodaj swoje pierwsze marzenie!", done: false }];
+        render(false);
+    } finally {
+        toggleLoading(false);
+    }
+}
 
         async function saveToCloud() {
             toggleLoading(true);
