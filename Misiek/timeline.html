@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Nasza Historia</title>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Start</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="timeline.html" class="active">Oś Czasu</a>
+        <a href="todo.html" >To-Do List</a>
+        <a href="bucket.html">Bucket List</a> 
+    </nav>
+
+    <div class="container">
+        <h1>Nasza Wspólna Droga ❤️</h1>
+        <p id="start-date-display" class="start-date-text"></p>
+
+        <div class="timer-display">
+            <div class="timer-box"><span id="t-months">0</span>Miesięcy</div>
+            <div class="timer-separator">:</div>
+            <div class="timer-box"><span id="t-days">0</span>Dni</div>
+            <div class="timer-separator">:</div>
+            <div class="timer-box"><span id="t-hours">0</span>Godzin</div>
+            <div class="timer-separator">:</div>
+            <div class="timer-box"><span id="t-mins">0</span>Minut</div>
+            <div class="timer-separator">:</div>
+            <div class="timer-box"><span id="t-secs">0</span>Sekund</div>
+        </div>
+
+        <div class="timeline-wrapper">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">Wrzesień/październik 2025</div>
+                <div class="timeline-card" onclick="openModal('event1')">
+                    <img src="images/chapter2/gra2.png" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>Początek chapter'u 2</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">8 Listopada 2025</div>
+                <div class="timeline-card" onclick="openModal('event2')">
+                    <img src="images/32/32.jpg" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>32</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">22 Listopada 2025</div>
+                <div class="timeline-card" onclick="openModal('event3')">
+                    <img src="images/spotkanie/3.jpg" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>"A buziaka dostanę?"</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">3 Grudnia 2025</div>
+                <div class="timeline-card" onclick="openModal('event4')">
+                    <img src="images/wiersz/moon.png" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>"O Księżycu"</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">14 Grudnia 2025</div>
+                <div class="timeline-card" onclick="openModal('event5')">
+                    <img src="images/destrukty/11.jpg" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>Destrukty</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">15 Grudnia 2025</div>
+                <div class="timeline-card" onclick="openModal('event6')">
+                    <img src="images/nightDrive/auto.jpg" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>Night Drive</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">29 Grudnia 2025</div>
+                <div class="timeline-card" onclick="openModal('event7')">
+                    <img src="images/kurka/kurka.png" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>Kurka</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">31 Grudnia 2025/1 stycznia 2026</div>
+                <div class="timeline-card" onclick="openModal('event8')">
+                    <img src="images/list/koper.jpg" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>List od Misia</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+             <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">13 - 18 Lutego 2026</div>
+                <div class="timeline-card" onclick="openModal('event9')">
+                    <img src="images/oslo/tytul.jpg" alt="Miniatura" class="timeline-thumb">
+                    <div class="timeline-text">
+                        <h3>Oslo</h3>
+                        <p>Kliknij, aby zobaczyć szczegóły...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">×</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalDesc"></p>
+            <div class="slider-container" id="slider"></div>
+            <div class="modal-map"></div>
+        </div>
+    </div>
+
+    <script>
+        const startDate = new Date("2025-11-22T17:30:00"); 
+
+        document.getElementById('start-date-display').innerText = "Razem od: " + startDate.toLocaleString('pl-PL', {
+            day: '2-digit', month: 'long', year: 'numeric'
+        });
+
+        const eventData = {
+            'event1': {
+                title: "Wtedy wszystko się zaczęło",
+                desc: "Najbardziej zintegrowała nas gra z prowadzeniem vana (RV There Yet)",
+                images: [
+                    { src: "images/chapter2/gra1.png", caption: "Dobrze nam szło!" },
+                    { src: "images/chapter2/kwiaty.png", caption: "Dostałam kwiatki" },
+                    { src: "images/chapter2/ja.png", caption: "Oglądanie i brzydkie zdjęcia z ukrycia..." },
+                    { src: "images/chapter2/ja2.jpg", caption: "Granie w kotki i ładniejsze zdjęcia 😝" }
+                ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19625.043414672695!2d21.366092527556933!3d52.05914874093793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4718d475c14db25b%3A0x6b38213a53897134!2s05-430%20Celestyn%C3%B3w!5e0!3m2!1spl!2spl!4v1776605470239!5m2!1spl!2spl", 
+                "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d316008.2741472839!2d19.150786362355454!3d51.772995690683885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471bcb24754556af%3A0xcb7cae639b21dbac!2zxYHDs2TFug!5e0!3m2!1spl!2spl!4v1776605510932!5m2!1spl!2spl"] 
+            },
+            'event2': {
+                title: "32 kille w Fortnite",
+                desc: "Nasza szczęśliwa liczba, dzięki tym killom się spotkaliśmy (No bez nich może i też by się obyło...)",
+                images: [
+                    { src: "images/32/32_2.jpg", caption: "Spocony bambik 🥵" },
+                    { src: "images/32/32_3.jpg", caption: "Formalności 🥰" }
+                ],
+                maps: ["images/32/mapa.jpg"] 
+            },
+            'event3': {
+                title: "Pierwszye spotkanie! ",
+                desc: "Czyli pierwsze spojrzenie sobie w oczy, pierwszy buziak i pytanie o związek (powiedziałam tak😎(kto by się spodziewał))",
+                images: [
+                    { src: "images/spotkanie/1.png", caption: "Dostałam różyczkę, a Ty lego!!! (Yay)" },
+                    { src: "images/spotkanie/2.jpg", caption: "Górka Szczęśliwicka - było pięknie i romantycznie" },
+                    { src: "images/spotkanie/3.jpg", caption: "Ławeczka to chyba nasze najważniejsze miejsce. (No w końcu mnie przytuliłeś.)" },
+                    { src: "images/spotkanie/4.jpg", caption: "Varso Tower, nasz vibe, BUZIAK i związek" },
+                    { src: "images/spotkanie/5.jpg", caption: "Jedyne zdjęcie jakie mam, które upamiętniające naszą pierwszą wspólną jazdę autem (magicznie było)" },
+                ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d312777.42698938935!2d20.731804036748677!3d52.232963388930436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a88ead3fc!2sWarszawa!5e0!3m2!1spl!2spl!4v1776605548821!5m2!1spl!2spl"]
+            },
+            'event4': {
+                title: "Napisałam dla Ciebie wiersz",
+                desc: "Może i nie był idealny, ale to, że ktoś był w ogóle w stanie mnie tak zainspirować było niesamowite. Sama chwila gdy Ci go dałam była bardzo wzruszająca <3",
+                images: [
+                    { src: "images/wiersz/11.png", caption: "Tutaj zobaczyłam Juzkowe łezki" },
+                    { src: "images/wiersz/1.png", caption: "Wiersz" }
+                  ],
+                maps: ["images/wiersz/mapa.png"]
+
+            }, 
+            'event5': {
+                title: "Małpi chlebek ",
+                desc: "Pierwsze wspólne gotowanie, pierwsze destrukty😝",
+                images: [
+                    { src: "images/destrukty/1.jpg", caption: "Wytwór kucharza (Śpiące susły)" },
+                    { src: "images/destrukty/2.jpg", caption: "Kucharz" }
+                     ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d316008.27414728375!2d19.15078636235546!3d51.77299569068391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471bcb24754556af%3A0xcb7cae639b21dbac!2zxYHDs2TFug!5e0!3m2!1spl!2spl!4v1776608247823!5m2!1spl!2spl"]
+            },
+            'event6': {
+                title: "Night drive!",
+                desc: "Mi się bardzo podobało, chociaż z takim kierowcom to oczywiste. No trochę Cię wywiozłam w las, ale sobie poradziłeś🥰",
+                images: [
+                    { src: "images/nightDrive/1.jpg", caption: "Vibeowo" },
+                    { src: "images/nightDrive/2.jpg" , caption: ""}
+                     ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4959.9949742579765!2d19.227141002663362!3d51.56827958730872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471a4766af2ccf63%3A0x51ad94efafe38f58!2s98-100%20Rokitnica!5e0!3m2!1spl!2spl!4v1776608610252!5m2!1spl!2spl"]
+            },
+            'event7': {
+                title: "Dostałam kurkę!!! ",
+                desc: "Prezent bez okazji (Kocham Kurki i Krzysia)",
+                images: [
+                    { src: "images/kurka/1.png", caption: "Dwóch pięknych na jednym zdjęciu" }
+                     ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d312777.42698938935!2d20.731804036748677!3d52.232963388930436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a88ead3fc!2sWarszawa!5e0!3m2!1spl!2spl!4v1776605548821!5m2!1spl!2spl"]
+            },
+            'event8': {
+                title: "Dostałam od Ciebie pierwszy list",
+                desc: "Może nie było tego po mnie widać, bo byłam w wielkim szoku, ale ten list bardzo mnie wzruszył. Cieżko jest sobie wyobrazić, że ktoś może mnie darzyć miłością w tak wyjątkowy sposób",
+                images: [
+                    { src: "images/list/list.png", caption: "❤️" }
+                     ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d316008.27414728375!2d19.15078636235546!3d51.77299569068391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471bcb24754556af%3A0xcb7cae639b21dbac!2zxYHDs2TFug!5e0!3m2!1spl!2spl!4v1776608247823!5m2!1spl!2spl"]
+            },
+
+            'event9': {
+                title: "Wyjazd do OSLO!!!",
+                desc: "Piękny czas, długo przeżywałam, że dobiegł końca (dalej trochę przeżywam :C). To było dosłownie jak sen. Oby więcej takich wyjazdów PROSZĘ!!!",
+                images: [
+                    { src: "images/oslo/tysiak.jpg", caption: "Tysiaczek też chciał jechać" },
+                    { src: "images/oslo/1.jpg", caption: "Piękny widok mieliśmy" },
+                    { src: "images/oslo/2.jpg", caption: "Smacznee (Śniadanko też niczego sobie)" },
+                    { src: "images/oslo/3.jpg", caption: "Muzeum Muncha - nie spodziewałam się, że tak fajnie mi będzie zwiedzać z Tobą muzeum" },
+                    { src: "images/oslo/4.jpg", caption: "" },
+                    { src: "images/oslo/5.jpg", caption: "Dziecko znalazło bryłę lodu" },
+                    { src: "images/oslo/6.jpg", caption: "Słodziaki z nas!" },
+                    { src: "images/oslo/7.jpg", caption: "Pierwszy wspólny ramen🥰" },
+                    { src: "images/oslo/8.jpg", caption: "Jeden z najfajniejszych naszych spacerów" },
+                    { src: "images/oslo/kijek.jpg", caption: "" },
+                    { src: "images/oslo/9.jpg", caption: "Nieładnie..." },
+                    { src: "images/oslo/10.jpg", caption: "" },
+                    { src: "images/oslo/11.jpg", caption: "" },
+                    { src: "images/oslo/12.jpg", caption: "Bubble tea," },
+                    { src: "images/oslo/13.jpg", caption: "chlanie i..." },
+                    { src: "images/oslo/14.jpg", caption: "rzyganie. Koniec." }
+
+
+
+                     ],
+                maps: ["https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d128083.37742117244!2d10.619972670196052!3d59.893923891805755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46416e61f267f039%3A0x7e92605fd3231e9a!2sOslo%2C%20Norwegia!5e0!3m2!1spl!2spl!4v1776612668244!5m2!1spl!2spl"]
+            }
+        };
+
+        function updateTimer() {
+            const now = new Date();
+            let absDiff = Math.abs(now - startDate);
+            document.getElementById('t-months').innerText = Math.floor(absDiff / 2630016000);
+            document.getElementById('t-days').innerText = Math.floor((absDiff / 86400000) % 30.44);
+            document.getElementById('t-hours').innerText = Math.floor((absDiff / 3600000) % 24);
+            document.getElementById('t-mins').innerText = Math.floor((absDiff / 60000) % 60);
+            document.getElementById('t-secs').innerText = Math.floor((absDiff / 1000) % 60);
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        let currentSlide = 0;
+        let slideImages = [];
+
+        function openModal(id) {
+            const data = eventData[id];
+            if (!data) return;
+
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalDesc').innerText = data.desc;
+            
+            const mapContainer = document.querySelector('.modal-map');
+            mapContainer.innerHTML = ''; 
+            const mapsToDisplay = data.maps || [];
+            
+            mapsToDisplay.forEach(item => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'location-wrapper';
+                
+                const label = document.createElement('p');
+                label.className = 'location-label';
+                label.innerText = 'Lokalizacja';
+                wrapper.appendChild(label);
+
+                if (item.includes("http") || item.includes("www") || item.includes("embed")) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = item;
+                    iframe.allowFullscreen = "";
+                    wrapper.appendChild(iframe);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = item;
+                    wrapper.appendChild(img);
+                }
+                mapContainer.appendChild(wrapper);
+            });
+
+            slideImages = data.images || [];
+            currentSlide = 0;
+            const slider = document.getElementById('slider');
+            slider.innerHTML = '';
+            
+            slideImages.forEach((imgObj) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'slider-img';
+                slideDiv.innerHTML = `<img src="${imgObj.src}"><p class="slide-caption">${imgObj.caption}</p>`;
+                slider.appendChild(slideDiv);
+            });
+
+            if (slideImages.length > 1) {
+                slider.innerHTML += `<button class="slider-btn prev" onclick="moveSlide(-1)">❮</button>
+                                     <button class="slider-btn next" onclick="moveSlide(1)">❯</button>
+                                     <div class="slider-dots" id="sliderDots"></div>`;
+                const dots = document.getElementById('sliderDots');
+                slideImages.forEach((_, i) => {
+                    const dot = document.createElement('span');
+                    dot.className = 'slider-dot';
+                    dot.onclick = () => setSlide(i);
+                    dots.appendChild(dot);
+                });
+            }
+            
+            showSlides();
+            document.getElementById('detailsModal').style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+
+        function showSlides() {
+            const imgs = document.querySelectorAll('.slider-img');
+            const dots = document.querySelectorAll('.slider-dot');
+            if (imgs.length === 0) return;
+            imgs.forEach(i => i.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            if(imgs[currentSlide]) imgs[currentSlide].classList.add('active');
+            if(dots[currentSlide]) dots[currentSlide].classList.add('active');
+        }
+
+        function moveSlide(n) { currentSlide = (currentSlide + n + slideImages.length) % slideImages.length; showSlides(); }
+        function setSlide(n) { currentSlide = n; showSlides(); }
+        
+        function closeModal() { 
+            document.getElementById('detailsModal').style.display = "none"; 
+            document.body.style.overflow = "auto"; 
+            document.querySelector('.modal-map').innerHTML = "";
+        }
+        
+        window.onclick = (e) => { if (e.target == document.getElementById('detailsModal')) closeModal(); }
+    </script>
+</body>
+</html>

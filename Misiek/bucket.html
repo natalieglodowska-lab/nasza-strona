@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Nasz Bucket List</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --dark: #1a1a1a;
+            --light: #fff5f7;
+        }
+
+        .bucket-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        ul { list-style: none; padding: 0; }
+
+        li {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+            padding: 15px 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+            border-left: 5px solid var(--primary);
+        }
+
+        /* Ładne style dla przycisków */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .status-btn {
+            background: #4ade80;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .status-btn:hover { transform: scale(1.05); }
+
+        .del-btn {
+            background: rgba(255, 77, 109, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 7px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .del-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Styl ukończenia */
+        .done {
+            border-left: 5px solid #4ade80;
+            opacity: 0.6;
+        }
+
+        .done .item-text {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .done .status-btn {
+            background: #666;
+        }
+
+        .item-text {
+            font-size: 1.1rem;
+            flex-grow: 1;
+            text-align: left;
+            margin-right: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        input {
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--primary);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            width: 60%;
+        }
+
+        #loader {
+            display: none;
+            margin: 10px auto;
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Start</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="timeline.html">Oś Czasu</a>
+        <a href="todo.html">To-Do List</a>
+        <a href="bucket.html" class="active">Bucket List</a> 
+    </nav>
+
+    <div class="container">
+        <h1>Nasze Marzenia ✈️</h1>
+        
+        <div class="input-section">
+            <input type="text" id="bucket-input" placeholder="Dodaj marzenie...">
+            <button class="btn" onclick="newElement()">Dodaj</button>
+        </div>
+
+        <div id="loader"></div>
+        <div id="loader-text" class="loading-text">Synchronizacja z chmurą...</div>
+
+        <div class="bucket-container">
+            <ul id="bucket-ul"></ul>
+        </div>
+    </div>
+
+    <script>
+        const list = document.getElementById('bucket-ul');
+        const loader = document.getElementById('loader');
+        const loaderText = document.getElementById('loader-text');
+        
+        // UPEWNIJ SIĘ, ŻE TO JEST TWÓJ NAJNOWSZY LINK Z "WDROŻENIA"
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyROPTLeQsxTIBQj5KDU5-CQ13X0KR1ZJoQapZXxJ-ngZDK5O70cWzE5nzi6KfdkrE9/exec"; 
+
+        let savedItems = [];
+
+        function toggleLoading(show) {
+            loader.style.display = show ? 'block' : 'none';
+            loaderText.style.display = show ? 'block' : 'none';
+        }
+
+        async function loadFromCloud() {
+            toggleLoading(true);
+            try {
+                // Kluczowe: Dodajemy ?type=bucket, aby skrypt wiedział co pobrać
+                const response = await fetch(SCRIPT_URL + "?type=bucket");
+                const data = await response.json();
+                
+                if (data && Array.isArray(data)) {
+                    savedItems = data;
+                } else {
+                    savedItems = [
+                        { text: "Oglądanie gwiazd", done: false },
+                        { text: "Big city night drive", done: false }
+                    ];
+                }
+                render(false);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                toggleLoading(false);
+            }
+        }
+
+        async function saveToCloud() {
+            toggleLoading(true);
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    // Kluczowe: Wysyłamy obiekt z typem 'bucket'
+                    body: JSON.stringify({ type: "bucket", data: savedItems })
+                });
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setTimeout(() => toggleLoading(false), 800);
+            }
+        }
+
+        async function render(shouldSave = true) {
+            list.innerHTML = '';
+            
+            savedItems.forEach((item, index) => {
+                const li = document.createElement('li');
+                if(item.done) li.classList.add('done');
+                
+                li.innerHTML = `
+                    <div class="item-text"><span>${item.text}</span></div>
+                    <div class="actions">
+                        <button class="status-btn" onclick="toggleDone(${index})">
+                            ${item.done ? 'Cofnij' : 'Zrobione!'}
+                        </button>
+                        <button class="del-btn" onclick="deleteItem(${index})">Usuń</button>
+                    </div>`;
+                list.appendChild(li);
+            });
+
+            if (shouldSave) {
+                await saveToCloud();
+            }
+        }
+
+        async function newElement() {
+            const val = document.getElementById('bucket-input').value;
+            if (val.trim() !== "") {
+                savedItems.push({ text: val, done: false });
+                document.getElementById('bucket-input').value = '';
+                await render(true);
+            }
+        }
+
+        async function toggleDone(index) {
+            savedItems[index].done = !savedItems[index].done;
+            await render(true);
+        }
+
+        async function deleteItem(index) {
+            if(confirm("Na pewno usunąć?")) {
+                savedItems.splice(index, 1);
+                await render(true);
+            }
+        }
+
+        loadFromCloud();
+    </script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Nasza Lista Zadań</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --dark: #1a1a1a;
+            --light: #fff5f7;
+        }
+
+        /* Sekcja wpisywania - formularz */
+        .input-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+
+        input, textarea, select {
+            padding: 12px 18px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 77, 109, 0.05);
+        }
+
+        .controls-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.2);
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        /* NOWY LOADER I NAPIS */
+        #loader {
+            display: none;
+            margin: 20px auto 5px auto;
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Grid zadań */
+        .todo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .todo-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 22px;
+            padding: 25px;
+            text-align: left;
+            border-left: 6px solid var(--primary);
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .todo-card.done-card {
+            border-left-color: #4ade80;
+            opacity: 0.6;
+        }
+
+        .todo-card.done-card h3 {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .author-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .tag-natalia { background: #ff4d6d; color: white; }
+        .tag-krzys { background: #457b9d; color: white; }
+
+        .todo-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            color: #fff;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .todo-card p {
+            margin: 0;
+            color: #bbb;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .card-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-status {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #4ade80;
+            color: white;
+        }
+
+        .btn-status.undo { background: #666; }
+
+        .btn-delete {
+            background: rgba(255, 77, 109, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 10px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Start</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="timeline.html">Oś Czasu</a>
+        <a href="todo.html" class="active">To-Do List</a>
+        <a href="bucket.html">Bucket List</a> 
+    </nav>
+
+    <div class="container">
+        <h1>Nasze Zadania 📝</h1>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label>Tytuł zadania</label>
+                <input type="text" id="title-input" placeholder="Tytuł...">
+            </div>
+            <div class="input-group">
+                <label>Opis szczegółowy</label>
+                <textarea id="desc-input" rows="2" placeholder="Dodaj opis..."></textarea>
+            </div>
+            <div class="controls-row">
+                <select id="person-select">
+                    <option value="Natalia">Natalia</option>
+                    <option value="Krzyś">Krzyś</option>
+                </select>
+                <button class="add-btn" onclick="addNewTask()">Dodaj plan</button>
+            </div>
+        </div>
+
+        <div id="loader"></div>
+        <div id="loader-text" class="loading-text">Synchronizacja z chmurą...</div>
+
+        <div id="todo-container" class="todo-grid"></div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyROPTLeQsxTIBQj5KDU5-CQ13X0KR1ZJoQapZXxJ-ngZDK5O70cWzE5nzi6KfdkrE9/exec"; 
+        const loader = document.getElementById('loader');
+        const loaderText = document.getElementById('loader-text');
+        let tasks = [];
+
+        function toggleLoading(show) {
+            loader.style.display = show ? 'block' : 'none';
+            loaderText.style.display = show ? 'block' : 'none';
+        }
+
+        async function loadTasks() {
+            toggleLoading(true);
+            try {
+                const response = await fetch(SCRIPT_URL + "?type=todo");
+                const data = await response.json();
+                tasks = Array.isArray(data) ? data : [];
+                render(false);
+            } catch (e) {
+                console.error("Błąd ładowania", e);
+                tasks = [];
+            } finally {
+                toggleLoading(false);
+            }
+        }
+
+        async function saveTasks() {
+            toggleLoading(true);
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ type: "todo", data: tasks })
+                });
+            } catch (e) {
+                console.error("Błąd zapisu", e);
+            } finally {
+                setTimeout(() => toggleLoading(false), 800);
+            }
+        }
+
+        function render(shouldSave = true) {
+            const container = document.getElementById('todo-container');
+            container.innerHTML = '';
+
+            tasks.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = `todo-card ${item.done ? 'done-card' : ''}`;
+                
+                const tagClass = item.who === 'Natalia' ? 'tag-natalia' : 'tag-krzys';
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="author-badge ${tagClass}">${item.who}</span>
+                            <span style="font-size: 0.7rem; color: #666;">${item.date}</span>
+                        </div>
+                        <h3>${item.title}</h3>
+                        <p>${item.desc || ''}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-status ${item.done ? 'undo' : ''}" onclick="toggleTask(${index})">
+                            ${item.done ? 'Cofnij' : 'Zrobione!'}
+                        </button>
+                        <button class="btn-delete" onclick="deleteTask(${index})">Usuń</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            if (shouldSave) saveTasks();
+        }
+
+        async function addNewTask() {
+            const titleInput = document.getElementById('title-input');
+            const descInput = document.getElementById('desc-input');
+            const who = document.getElementById('person-select').value;
+            const date = new Date().toLocaleDateString('pl-PL');
+
+            if (titleInput.value.trim() === "") return;
+
+            tasks.unshift({
+                title: titleInput.value,
+                desc: descInput.value,
+                who: who,
+                date: date,
+                done: false
+            });
+
+            titleInput.value = '';
+            descInput.value = '';
+            render(true);
+        }
+
+        async function toggleTask(index) {
+            tasks[index].done = !tasks[index].done;
+            render(true);
+        }
+
+        async function deleteTask(index) {
+            if(confirm("Usunąć to zadanie?")) {
+                tasks.splice(index, 1);
+                render(true);
+            }
+        }
+
+        loadTasks();
+    </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Wielki Quiz Wiedzy</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --dark: #1a1a1a;
+        }
+
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 25px;
+            margin: 20px auto;
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #progress {
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        #question {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            color: #fff;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border: 1px solid rgba(255, 77, 109, 0.4);
+            padding: 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        .result-screen {
+            padding: 20px;
+        }
+
+        .score-circle {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
+            text-shadow: 0 0 15px rgba(255, 77, 109, 0.5);
+        }
+
+        .restart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Start</a>
+        <a href="quiz.html" class="active">Quiz</a>
+        <a href="timeline.html">Oś Czasu</a>
+        <a href="gallery.html">Zdjęcia</a>
+        <a href="map.html">Mapa</a>
+        <a href="bucket.html">Bucket List</a>
+    </nav>
+
+    <div class="container">
+        <h1>Sprawdź swoją wiedzę! 🧠</h1>
+        
+        <div class="quiz-card" id="quiz-box">
+            <div id="progress">Pytanie 1 z 7</div>
+            <h2 id="question">Ładowanie...</h2>
+            
+            <div id="options" class="options-grid">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "Moje ulubione kwiatki?",
+                options: ["Czerwona róża", "Lilia", "Lotos"],
+                correct: 1
+            },
+            {
+                q: "Gdzie najbardziej chcę z Tobą polecieć?",
+                options: ["Paryż", "Japonia", "Nowy York"],
+                correct: 2
+            },
+            {
+                q: "Nasze pierwsze spotkanie było ... listopada",
+                options: ["21", "22", "23"],
+                correct: 1
+            },
+            {
+                q: "Jaki kolor bluzki miałam na sobie, kiedy zobaczyliśmy się pierwszy raz?",
+                options: ["czarny", "beżowy", "biały"],
+                correct: 2
+            },
+            {
+                q: "Nuta która kojarzy mi się z wyjazdem do szczytna?",
+                options: ["Nie chce umierać", "SIE KLEI", "Legendarne Duo"],
+                correct: 1
+            },
+            {
+                q: "Ile końcowo zrobiłeś killi?",
+                options: ["32", "33", "34"],
+                correct: 1
+            },
+            {
+                q: "Jaką bajkę obejrzeliśmy jako pierwszą w chapterze 2",
+                options: ["Wall-e", "Kpop Demon Hunters", "Ratatuj"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const qData = questions[currentQuestion];
+            
+            // Postęp i pytanie
+            document.getElementById('progress').innerText = `Pytanie ${currentQuestion + 1} z ${questions.length}`;
+            document.getElementById('question').innerText = qData.q;
+            
+            // Opcje
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = "";
+            
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(idx) {
+            if (idx === questions[currentQuestion].correct) {
+                score++;
+            }
+
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const box = document.getElementById('quiz-box');
+            let feedback = "";
+            
+            if(score === 7) feedback = "Noo coś tam o nas wiesz";
+            else if(score >= 5) feedback = "Całkiem, całkiem";
+            else feedback = "Masakra.";
+            
+
+            box.innerHTML = `
+                <div class="result-screen">
+                    <h2>Wynik końcowy</h2>
+                    <div class="score-circle">${score} / 7</div>
+                    <p style="color: #bbb; font-size: 1.1rem;">${feedback}</p>
+                    <button class="restart-btn" onclick="location.reload()">Zagraj jeszcze raz</button>
+                </div>
+            `;
+        }
+
+        // Start quizu
+        loadQuestion();
+    </script>
+</body>
+</html>
