@@ -6,6 +6,18 @@
     <title>Nasza Strona</title>
 </head>
 <body>
+    <body style="margin:0; padding:0;">
+    <script>
+        (function() {
+            var password = prompt("Podaj tajne hasło:");
+            if (password !== "miaumiau") {
+                alert("Nieprawidłowe hasło!");
+                window.location.reload(); // Odświeża stronę, by zapytać ponownie
+            }
+        })();
+    </script>
+
+    
     <nav>
         <a href="index.html" class="active">Start</a>
         <a href="quiz.html" >Quiz</a>
